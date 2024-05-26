@@ -9,6 +9,9 @@ public class Product {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
+    public Boolean sameId(Long id) {
+        return this.id.equals(id);
+    }
     
 }
