@@ -1,7 +1,6 @@
 package kr.co.hanbit.product.management.presentation;
 
 import kr.co.hanbit.product.management.application.SimpleProductService;
-import kr.co.hanbit.product.management.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +9,7 @@ import java.util.List;
 @RestController
 public class ProductController {
     
-    private SimpleProductService simpleProductService;
+    private final SimpleProductService simpleProductService;
     
     @Autowired
     ProductController(SimpleProductService simpleProductService) {
@@ -29,7 +28,26 @@ public class ProductController {
     }
     
     @RequestMapping(value = "/products", method = RequestMethod.GET)
-    public List<ProductDto> findAllProduct() {
-        return simpleProductService.findAll();
+    public List<ProductDto> findProducts(
+            @RequestParam(required = false) String name
+    ) {
+        if (null == name)
+            return simpleProductService.findAll();
+        
+        return simpleProductService.findByNameContaining(name);
+    }
+    
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.PUT)
+    public ProductDto updateProduct(
+            @PathVariable Long id,
+            @RequestBody ProductDto productDto
+    ) {
+        productDto.setId(id);
+        return simpleProductService.update(productDto);
+    }
+
+    @RequestMapping(value = "/products/{id}", method = RequestMethod.DELETE)
+    public void deleteProduct(@PathVariable Long id) {
+        simpleProductService.delete(id);
     }
 }

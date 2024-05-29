@@ -1,3 +1,4 @@
+
 package kr.co.hanbit.product.management.presentation;
 
 public class ProductDto {
@@ -8,6 +9,10 @@ public class ProductDto {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -21,4 +26,5 @@ public class ProductDto {
     public Integer getAmount() {
         return amount;
     }
+
 }
